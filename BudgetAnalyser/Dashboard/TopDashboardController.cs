@@ -54,7 +54,20 @@ public sealed class TopDashboardController : ControllerBase, IShowableController
         Messenger.Register<TopDashboardController, ApplicationStateRequestedMessage>(this, OnApplicationStateRequested);
     }
 
-    public Guid CorrelationId { get; private set; } = Guid.NewGuid();
+    public Guid CorrelationId
+    {
+        get;
+        private set
+        {
+            if (value == field)
+            {
+                return;
+            }
+
+            field = value;
+            OnPropertyChanged();
+        }
+    }
 
     public GlobalFilterController GlobalFilterController
     {
