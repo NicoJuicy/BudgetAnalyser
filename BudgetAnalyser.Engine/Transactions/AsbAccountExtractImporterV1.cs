@@ -80,7 +80,7 @@ internal class AsbAccountExtractImporterV1 : IBankExtractImporter
                 continue;
             }
 
-            var split = line.Split(',');
+            var split = SplitByCommaDelimited(line);
             var transaction = new Transaction
             {
                 Account = account,
@@ -96,6 +96,53 @@ internal class AsbAccountExtractImporterV1 : IBankExtractImporter
         }
 
         return new TransactionsListModel(this.logger) { StorageKey = fileName, LastImport = DateTime.Now }.LoadTransactions(transactions);
+    }
+
+    private string[] SplitByCommaDelimited(string line)
+    {
+        if (string.IsNullOrEmpty(line))
+        {
+            return Array.Empty<string>();
+        }
+
+        if (line.IndexOf('"') == -1)
+        {
+            return line.Split(',');
+        }
+
+        var sb = new System.Text.StringBuilder(line.Length);
+        var inQuotes = false;
+
+        for (var i = 0; i < line.Length; i++)
+        {
+            var c = line[i];
+            if (c == '"')
+            {
+                // Handle escaped double quotes "" inside quoted field
+                if (inQuotes && i + 1 < line.Length && line[i + 1] == '"')
+                {
+                    sb.Append('"');
+                    i++; // skip the escaped quote
+                }
+                else
+                {
+                    inQuotes = !inQuotes;
+                    sb.Append('"');
+                }
+            }
+            else if (c == ',' && inQuotes)
+            {
+                // Replace commas inside quoted fields with semicolons
+                sb.Append(';');
+            }
+            else
+            {
+                sb.Append(c);
+            }
+        }
+
+        var processed = sb.ToString();
+        return processed.Split(',');
     }
 
     /// <summary>
@@ -188,7 +235,7 @@ internal class AsbAccountExtractImporterV1 : IBankExtractImporter
 
     private bool VerifyFirstDataLine(string line)
     {
-        var split = line.Split(',');
+        var split = SplitByCommaDelimited(line);
         if (split.Length < 7)
         {
             return false;
