@@ -60,12 +60,7 @@ internal class LocalDiskReaderWriter : IFileReaderWriter
             var builder = new StringBuilder();
             for (var index = 0; index < lineCount; index++)
             {
-                var line = await reader.ReadLineAsync();
-                if (string.IsNullOrWhiteSpace(line))
-                {
-                    break;
-                }
-
+                var line = await reader.ReadLineAsync() ?? string.Empty;
                 builder.AppendLine(line);
             }
 
