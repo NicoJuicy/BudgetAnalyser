@@ -96,7 +96,7 @@
         <DataTemplate DataType="{x:Type widget:Widget}">
             <Border ContextMenu="{StaticResource WidgetContextMenu}"
                     Style="{Binding WidgetStyle, Converter={StaticResource Converter.TextToStaticResource}}"
-                    Tag="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext}"
+                    Tag="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.(dashboard:TopDashboardController.CorrelationId)}"
                     ToolTip="{Binding ToolTip}"
                     Visibility="{Binding Visibility, Converter={StaticResource Converter.BoolToVis}}">
                 <Grid Style="{Binding ColourStyleName, Converter={StaticResource Converter.TextToStaticResource}}">
