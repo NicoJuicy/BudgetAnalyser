@@ -166,12 +166,19 @@ internal class AsbAccountExtractImporterV1 : IBankExtractImporter
                 return false;
             }
 
-            if (!VerifyColumnHeaderLine(lines[6]))
+            // Headerline will be at line index 6 if there is an Available Balance line, otherwise line index 5.
+            var lineIndex = 6;
+            if (!VerifyColumnHeaderLine(lines[lineIndex]))
             {
-                return false;
+                lineIndex = 5;
+                if (!VerifyColumnHeaderLine(lines[lineIndex]))
+                {
+                    return false;
+                }
             }
+            lineIndex++;
 
-            if (!VerifyFirstDataLine(lines[7]))
+            if (!VerifyFirstDataLine(lines[lineIndex]))
             {
                 return false;
             }
