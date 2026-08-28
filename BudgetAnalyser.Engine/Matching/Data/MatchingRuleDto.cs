@@ -18,7 +18,8 @@ public record MatchingRuleDto(
     string? Reference1,
     string? Reference2,
     string? Reference3,
-    string? TransactionType)
+    string? TransactionType,
+    bool UseRegex)
 {
     public Guid? RuleId { get; init; } = Guid.NewGuid();
 }

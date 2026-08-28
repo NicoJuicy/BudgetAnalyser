@@ -22,7 +22,8 @@ public class DataMatchingRuleToMatchingRuleMapperTest
             Reference2: "Testing Reference2",
             Reference3: "Testing Reference3",
             TransactionType: "Testing TransactionType",
-            And: true);
+            And: true,
+            UseRegex: false);
     }
 
     [Fact]
@@ -68,10 +69,10 @@ public class DataMatchingRuleToMatchingRuleMapperTest
     }
 
     [Fact]
-    public void NumberOfDataMatchingRulePropertiesShouldBe12()
+    public void NumberOfDataMatchingRulePropertiesShouldBe14()
     {
         var dataProperties = typeof(MatchingRule).CountProperties();
-        dataProperties.ShouldBe(13);
+        dataProperties.ShouldBe(14);
     }
 
     [Fact]

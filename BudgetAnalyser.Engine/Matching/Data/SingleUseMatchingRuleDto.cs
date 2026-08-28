@@ -16,4 +16,4 @@ public record SingleUseMatchingRuleDto(
     string? Reference2,
     string? Reference3,
     string? TransactionType)
-    : MatchingRuleDto(Amount, And, BucketCode, Created, Description, LastMatch, MatchCount, Reference1, Reference2, Reference3, TransactionType);
+    : MatchingRuleDto(Amount, And, BucketCode, Created, Description, LastMatch, MatchCount, Reference1, Reference2, Reference3, TransactionType, false);

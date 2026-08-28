@@ -12,6 +12,7 @@
         "Reference2": null,
         "Reference3": null,
         "TransactionType": null,
+        "UseRegex": false,
         "RuleId": "f21881f2-4ca7-4d90-b2f5-4d08a56b38cc"
     }
 ]

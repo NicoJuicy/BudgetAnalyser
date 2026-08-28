@@ -133,7 +133,7 @@ public partial class EditRulesUserControl
             if (eventArgs.PropertyName == "SelectedRule")
             {
                 Debug.WriteLine("EditRulesUserControl: SelectedRule Changed handled by a listbox");
-                if (listBox.SelectedItem is null || Controller.SelectedRule is null)
+                if (Controller is null || listBox.SelectedItem is null || Controller.SelectedRule is null)
                 {
                     return;
                 }

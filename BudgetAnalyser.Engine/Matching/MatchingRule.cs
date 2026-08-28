@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using BudgetAnalyser.Engine.Budget;
 using BudgetAnalyser.Engine.Transactions;
 using JetBrains.Annotations;
@@ -55,6 +56,19 @@ public class MatchingRule : INotifyPropertyChanged, IEquatable<MatchingRule>
     ///     Gets or sets a value indicating whether the criteria values are 'And'ed together or 'Or'ed.
     /// </summary>
     public bool And
+    {
+        get;
+        set
+        {
+            field = value;
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    ///     Gets or sets a value indicating whether the description, reference1, reference2 and reference3 fields should be treated as regular expressions.
+    /// </summary>
+    public bool UseRegularExpressions
     {
         get;
         set
@@ -254,6 +268,17 @@ public class MatchingRule : INotifyPropertyChanged, IEquatable<MatchingRule>
             return false;
         }
 
+        var matched = IsWholeFieldMatch(transaction);
+        if (!matched && UseRegularExpressions)
+        {
+            matched = IsRegexMatch(transaction);
+        }
+
+        return matched;
+    }
+
+    private bool IsWholeFieldMatch(Transaction transaction)
+    {
         var matchesMade = 0;
         var totalComparisons = 0;
         if (!string.IsNullOrWhiteSpace(Description))
@@ -324,6 +349,93 @@ public class MatchingRule : INotifyPropertyChanged, IEquatable<MatchingRule>
         }
 
         return matched;
+    }
+
+    private bool IsRegexMatch(Transaction transaction)
+    {
+        var matchesMade = 0;
+        var totalComparisons = 0;
+
+        if (!string.IsNullOrWhiteSpace(Description))
+        {
+            if (RegexIsMatch(transaction.Description, Description))
+            {
+                matchesMade++;
+            }
+
+            totalComparisons++;
+        }
+
+        if (!string.IsNullOrWhiteSpace(Reference1))
+        {
+            if (RegexIsMatch(transaction.Reference1, Reference1))
+            {
+                matchesMade++;
+            }
+
+            totalComparisons++;
+        }
+
+        if (!string.IsNullOrWhiteSpace(Reference2))
+        {
+            if (RegexIsMatch(transaction.Reference2, Reference2))
+            {
+                matchesMade++;
+            }
+
+            totalComparisons++;
+        }
+
+        if (!string.IsNullOrWhiteSpace(Reference3))
+        {
+            if (RegexIsMatch(transaction.Reference3, Reference3))
+            {
+                matchesMade++;
+            }
+
+            totalComparisons++;
+        }
+
+        if (!string.IsNullOrWhiteSpace(TransactionType))
+        {
+            if (RegexIsMatch(transaction.TransactionType.Name, TransactionType))
+            {
+                matchesMade++;
+            }
+
+            totalComparisons++;
+        }
+
+        if (totalComparisons == 0)
+        {
+            return false;
+        }
+
+        var matched = And ? matchesMade == totalComparisons : matchesMade >= 1;
+        if (matched)
+        {
+            LastMatch = DateTime.Now;
+            MatchCount++;
+        }
+
+        return matched;
+    }
+
+    private static bool RegexIsMatch(string? value, string? pattern)
+    {
+        if (string.IsNullOrWhiteSpace(value) || string.IsNullOrWhiteSpace(pattern))
+        {
+            return false;
+        }
+
+        try
+        {
+            return Regex.IsMatch(value, pattern, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        }
+        catch (ArgumentException)
+        {
+            return false;
+        }
     }
 
     /// <summary>

@@ -51,8 +51,6 @@ public class EditRulesController : ControllerBase
         Messenger.Register<EditRulesController, RuleCreatedMessage>(this, OnRuleCreated);
     }
 
-    public string? AndOrText => SelectedRule is null ? null : SelectedRule.And ? "AND" : "OR";
-
     public IRelayCommand DeleteRuleCommand { get; }
 
     public bool EditingRule
@@ -97,7 +95,6 @@ public class EditRulesController : ControllerBase
             field = value;
             OnPropertyChanged();
             OnPropertyChanged(nameof(ShowReadOnlyRuleDetails));
-            OnPropertyChanged(nameof(AndOrText));
             DeleteRuleCommand.NotifyCanExecuteChanged();
             SelectRuleCommand.NotifyCanExecuteChanged();
         }
@@ -244,7 +241,6 @@ public class EditRulesController : ControllerBase
     private void OnSavedNotificationReceived(object? sender, EventArgs eventArgs)
     {
         EditingRule = false;
-        OnPropertyChanged(nameof(AndOrText));
     }
 
     private void OnSortCommandExecute(string? sortBy)

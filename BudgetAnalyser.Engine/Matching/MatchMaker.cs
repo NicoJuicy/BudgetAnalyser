@@ -32,9 +32,10 @@ internal class Matchmaker(ILogger logger, IBudgetBucketRepository bucketRepo) : 
             transactions,
             transaction =>
             {
+                // Is one of the reference fields fully matching a bucket code?
                 var thisMatch = IsReferenceBucketCode(transaction);
 
-                // If auto-matched based on user provided reference number.
+                // If auto-matched based on user-provided reference number skip matching to rules.
                 if (!thisMatch)
                 {
                     thisMatch = MatchToRules(localRules, transaction);

@@ -68,10 +68,10 @@ public class MatchingRuleToDataMatchingRuleMapperTest
     }
 
     [Fact]
-    public void NumberOfDataMatchingRulePropertiesShouldBe12()
+    public void NumberOfDataMatchingRulePropertiesShouldBe13()
     {
         var dataProperties = typeof(MatchingRuleDto).CountProperties();
-        dataProperties.ShouldBe(12);
+        dataProperties.ShouldBe(13);
     }
 
     [Fact]

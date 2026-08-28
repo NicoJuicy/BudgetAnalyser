@@ -44,6 +44,56 @@ public class MatchingRuleTest
     }
 
     [Fact]
+    public void AndMatchShouldMatchOnDescriptionRegex()
+    {
+        var subject = Arrange();
+        subject.UseRegularExpressions = true;
+        subject.Description = "^Testing.*Description$";
+
+        var success = subject.Match(new Transaction { Description = "Testing Description" });
+        success.ShouldBeTrue();
+    }
+
+    [Fact]
+    public void AndMatchShouldMatchOnDescriptionAndReferenceRegex1()
+    {
+        var subject = Arrange();
+        subject.UseRegularExpressions = true;
+        subject.Description = "BILL PAYMENT TO .*? WATER";
+        subject.Reference1 = " WATERCARE ";
+
+        var txn = new Transaction { Description = "BILL PAYMENT TO 23746278 WATER", Reference1 = "123123 WATERCARE" };
+        var success = subject.Match(txn);
+        success.ShouldBeTrue();
+    }
+
+    [Fact]
+    public void AndMatchShouldMatchOnDescriptionAndReferenceRegex2()
+    {
+        var subject = Arrange();
+        subject.UseRegularExpressions = true;
+        subject.Description = "BILL PAYMENT TO .*? WATER";
+        subject.Reference1 = " WATERCARE ";
+
+        var txn = new Transaction { Description = "BILL PAYMENT TO 23746278 WATER", Reference1 = "123123 WATERCARE S safdsadf" };
+        var success = subject.Match(txn);
+        success.ShouldBeTrue();
+    }
+
+    [Fact]
+    public void OrMatchShouldMatchOnDescriptionRegex()
+    {
+        var subject = Arrange();
+        subject.UseRegularExpressions = true;
+        subject.And = false;
+        subject.Description = "^Testing.*Description$";
+        subject.Reference1 = "^Ref.*$";
+
+        var success = subject.Match(new Transaction { Description = "blah", Reference1 = "Ref999" });
+        success.ShouldBeTrue();
+    }
+
+    [Fact]
     public void AndMatchShouldMatchOnReferences()
     {
         var subject = Arrange();

@@ -28,7 +28,8 @@ public class DtoToMatchingRuleMapperTest
             Reference2: "over",
             Reference3: "the lazy",
             TransactionType: "dog.",
-            And: true)
+            And: true,
+            UseRegex: false)
     { RuleId = Id };
 
     [Fact]

@@ -28,7 +28,8 @@ public class MapperMatchingRuleToDto2(IBudgetBucketRepository bucketRepo) : IDto
             TransactionType: model.TransactionType,
             Amount: model.Amount,
             And: model.And,
-            Created: model.Created.ToUniversalTime()
+            Created: model.Created.ToUniversalTime(),
+            UseRegex: model.UseRegularExpressions
         )
         {
             RuleId = model.RuleId
@@ -57,7 +58,8 @@ public class MapperMatchingRuleToDto2(IBudgetBucketRepository bucketRepo) : IDto
             Reference2 = dto.Reference2,
             Reference3 = dto.Reference3,
             TransactionType = dto.TransactionType,
-            RuleId = dto.RuleId ?? Guid.NewGuid()
+            RuleId = dto.RuleId ?? Guid.NewGuid(),
+            UseRegularExpressions = dto.UseRegex
         };
 
         return model;

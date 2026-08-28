@@ -46,34 +46,6 @@ public class EditRulesControllerTest
         this.subject = new EditRulesController(this.messenger, userPrompts, this.ruleService, this.applicationDatabaseFacade);
     }
 
-    // ── AndOrText property ───────────────────────────────────────────────────
-
-    [Fact]
-    public void AndOrText_WhenNoRuleSelected_ReturnsNull()
-    {
-        this.subject.AndOrText.ShouldBeNull();
-    }
-
-    [Fact]
-    public void AndOrText_WhenRuleSelectedWithAndFalse_ReturnsOrText()
-    {
-        var rule = CreateRule();
-        rule.And = false;
-        this.subject.SelectedRule = rule;
-
-        this.subject.AndOrText.ShouldBe("OR");
-    }
-
-    [Fact]
-    public void AndOrText_WhenRuleSelectedWithAndTrue_ReturnsAndText()
-    {
-        var rule = CreateRule();
-        rule.And = true;
-        this.subject.SelectedRule = rule;
-
-        this.subject.AndOrText.ShouldBe("AND");
-    }
-
     [Fact]
     public void DeleteRuleCommand_Execute_WhenRuleServiceReturnsFalse_DoesNotNotifyApplicationDatabase()
     {

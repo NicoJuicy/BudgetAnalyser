@@ -244,10 +244,6 @@
                          Grid.Row="4"
                          Text="{Binding SelectedRule.Description}"
                          Visibility="{Binding EditingRule, Converter={StaticResource Converter.BoolToVis}}" />
-                <TextBlock Grid.Column="2"
-                           Grid.Row="4"
-                           Text="{Binding AndOrText}"
-                           Visibility="{Binding SelectedRule.Description, Converter={StaticResource Converter.NullToVis}}" />
 
                 <TextBlock Grid.Row="5"
                            Grid.Column="0"
@@ -262,10 +258,6 @@
                          Grid.Row="5"
                          Text="{Binding SelectedRule.Amount}"
                          Visibility="{Binding EditingRule, Converter={StaticResource Converter.BoolToVis}}" />
-                <TextBlock Grid.Column="2"
-                           Grid.Row="5"
-                           Text="{Binding AndOrText}"
-                           Visibility="{Binding SelectedRule.Amount, Converter={StaticResource Converter.NullToVis}}" />
 
                 <TextBlock Grid.Row="6"
                            Grid.Column="0"
@@ -280,10 +272,6 @@
                          Grid.Row="6"
                          Text="{Binding SelectedRule.Reference1}"
                          Visibility="{Binding EditingRule, Converter={StaticResource Converter.BoolToVis2}}" />
-                <TextBlock Grid.Column="2"
-                           Grid.Row="6"
-                           Text="{Binding AndOrText}"
-                           Visibility="{Binding SelectedRule.Reference1, Converter={StaticResource Converter.NullToVis}}" />
 
                 <TextBlock Grid.Column="1"
                            Grid.Row="7"
@@ -294,10 +282,6 @@
                          Grid.Row="7"
                          Text="{Binding SelectedRule.Reference2}"
                          Visibility="{Binding EditingRule, Converter={StaticResource Converter.BoolToVis2}}" />
-                <TextBlock Grid.Column="2"
-                           Grid.Row="7"
-                           Text="{Binding AndOrText}"
-                           Visibility="{Binding SelectedRule.Reference2, Converter={StaticResource Converter.NullToVis}}" />
 
                 <TextBlock Grid.Column="1"
                            Grid.Row="8"
@@ -308,10 +292,6 @@
                          Grid.Row="8"
                          Text="{Binding SelectedRule.Reference3}"
                          Visibility="{Binding EditingRule, Converter={StaticResource Converter.BoolToVis2}}" />
-                <TextBlock Grid.Column="2"
-                           Grid.Row="8"
-                           Text="{Binding AndOrText}"
-                           Visibility="{Binding SelectedRule.Reference3, Converter={StaticResource Converter.NullToVis}}" />
 
                 <TextBlock Grid.Row="9"
                            Grid.Column="0"
@@ -321,10 +301,6 @@
                            Grid.Row="9"
                            Style="{StaticResource TextBlock.RuleDataStyle}"
                            Text="{Binding SelectedRule.TransactionType}"
-                           Visibility="{Binding SelectedRule.TransactionType, Converter={StaticResource Converter.NullToVis}}" />
-                <TextBlock Grid.Column="2"
-                           Grid.Row="9"
-                           Text="{Binding AndOrText}"
                            Visibility="{Binding SelectedRule.TransactionType, Converter={StaticResource Converter.NullToVis}}" />
 
                 <TextBlock Grid.Row="10"
@@ -337,13 +313,12 @@
                            Text="{Binding SelectedRule.RuleId}" />
                 <TextBlock Grid.Row="11"
                            Grid.Column="0"
-                           Text="And / Or Matching:"
-                           Style="{StaticResource TextBlock.LabelStyle}"
-                           Visibility="{Binding EditingRule, Converter={StaticResource Converter.BoolToVis}}" />
+                           Text="And / Or Matching?"
+                           Style="{StaticResource TextBlock.LabelStyle}"/>
                 <StackPanel Grid.Row="11"
                             Grid.Column="1"
                             Orientation="Horizontal"
-                            Visibility="{Binding EditingRule, Converter={StaticResource Converter.BoolToVis}}">
+                            IsEnabled="{Binding EditingRule}">
                     <RadioButton IsChecked="{Binding SelectedRule.And}"
                                  Checked="OnCheckedAndSelectedRule"
                                  IsVisibleChanged="OnVisibilityChangedAndButton"
@@ -357,7 +332,10 @@
                             <TextBlock Text="Or" />
                         </RadioButton.Content>
                     </RadioButton>
-
+                    <CheckBox Margin="20,5,0,0"
+                              IsChecked="{Binding SelectedRule.UseRegularExpressions}">
+                        <TextBlock Text="Use Regular Expressions" />
+                    </CheckBox>
                 </StackPanel>
             </Grid>
         </Border>
